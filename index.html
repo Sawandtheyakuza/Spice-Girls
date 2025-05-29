@@ -21,6 +21,9 @@
       padding: 40px 20px;
       text-align: center;
       color: white;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeInUp 1s forwards ease-out;
     }
 
     header h1 {
@@ -32,6 +35,10 @@
       background-color: #ffc0cb;
       text-align: center;
       padding: 10px;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeInUp 1s forwards ease-out;
+      animation-delay: 0.3s;
     }
 
     nav a {
@@ -40,12 +47,24 @@
       text-decoration: none;
       font-weight: bold;
       cursor: pointer;
+      transition: color 0.3s, transform 0.3s;
+    }
+    nav a:hover {
+      color: #d63384;
+      transform: scale(1.1);
     }
 
     section {
       padding: 40px 20px;
       max-width: 900px;
       margin: auto;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    }
+    section.visible {
+      opacity: 1;
+      transform: translateY(0);
     }
 
     h2 {
@@ -57,6 +76,10 @@
       padding: 20px;
       background-color: #ffe4e1;
       color: #888;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeInUp 1s forwards ease-out;
+      animation-delay: 0.6s;
     }
 
     .contact a {
@@ -82,6 +105,7 @@
       border-radius: 10px;
       max-width: 400px;
       text-align: center;
+      animation: fadeIn 0.5s ease forwards;
     }
 
     #close-modal {
@@ -91,6 +115,10 @@
       padding: 10px 20px;
       cursor: pointer;
       margin-top: 20px;
+      transition: background-color 0.3s;
+    }
+    #close-modal:hover {
+      background-color: #b72d70;
     }
 
     /* Dark mode */
@@ -123,6 +151,27 @@
       height: 50px;
       font-size: 1.5em;
       cursor: pointer;
+      transition: background-color 0.3s, transform 0.3s;
+    }
+    #theme-btn:hover {
+      background-color: #b72d70;
+      transform: scale(1.1);
+    }
+
+    /* Animations */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    @keyframes fadeIn {
+      from {opacity: 0;}
+      to {opacity: 1;}
     }
   </style>
 </head>
@@ -143,17 +192,15 @@
 
 <section id="apropos">
   <h2>À propos</h2>
-  <p>Spice Girls est un club de joueuses passionnées sur Star Stable Online. Nous partageons des moments funs, des aventures à cheval et de l’amitié 💖.</p>
+  <p>Welcome to our website sweetie'</p>
+  <p>Here you'll find all the information you need, as well as a form to join us, our networks, our discord, our universe and our references.</p>
+  <p>We're back with even bigger ideas. With universe that transcends time...</p>
 </section>
 
 <section id="activites">
   <h2>Nos Activités</h2>
-  <ul>
-    <li>Balades en groupe</li>
-    <li>Concours d’équitation</li>
-    <li>Chasses au trésor</li>
-    <li>Soirées thématiques et événements</li>
-  </ul>
+  <p>˚₊· ͟͟͞➳❥  Nous sommes un club de Dressage melangeant la bonne ambiance, les soirées chill avec une touche de sérieux. Nous avons des objectifs comme rentrer dans la SSD, nous faire connaître nous et notre DA.</p>
+  <p>Ici retrouvez du dressage, du roblox, du valorant, des soirées films et des jeux multiples que se soit sur SSO ou autres..</p>
 </section>
 
 <section id="contact" class="contact">
@@ -202,11 +249,29 @@
     document.getElementById("modal").style.display = "none";
   }
 
-  // Dark mode
+  // Dark mode toggle
   document.getElementById("theme-btn").onclick = () => {
     document.body.classList.toggle("dark-mode");
   }
+
+  // Animation on scroll for sections
+  function revealSections() {
+    const sections = document.querySelectorAll('section');
+    const triggerBottom = window.innerHeight * 0.85;
+
+    sections.forEach(section => {
+      const sectionTop = section.getBoundingClientRect().top;
+
+      if(sectionTop < triggerBottom) {
+        section.classList.add('visible');
+      }
+    });
+  }
+
+  window.addEventListener('scroll', revealSections);
+  window.addEventListener('load', revealSections);
 </script>
 
 </body>
 </html>
+
