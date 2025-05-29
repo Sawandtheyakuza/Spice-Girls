@@ -108,13 +108,7 @@
     border-radius: 12px;
     box-shadow: 0 6px 20px rgba(214, 51, 132, 0.15);
     padding: 30px 35px;
-    opacity: 0;
-    transform: translateY(40px);
-    transition: opacity 0.7s ease, transform 0.7s ease;
-  }
-  section.visible {
-    opacity: 1;
-    transform: translateY(0);
+    animation: fadeSlideIn 0.7s ease forwards;
   }
 
   h2 {
@@ -179,7 +173,6 @@
     max-width: 400px;
     text-align: center;
     box-shadow: 0 12px 35px rgba(214, 51, 132, 0.3);
-    animation: fadeIn 0.4s ease forwards;
   }
   #close-modal {
     background: #d63384;
@@ -265,9 +258,15 @@
   }
 
   /* Animations */
-  @keyframes fadeIn {
-    from {opacity: 0;}
-    to {opacity: 1;}
+  @keyframes fadeSlideIn {
+    from {
+      opacity: 0;
+      transform: translateY(40px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 </style>
 </head>
@@ -281,17 +280,5 @@
 <nav>
   <a href="#apropos" onclick="scrollToSection('apropos')">À propos</a>
   <a href="#activites" onclick="scrollToSection('activites')">Activités</a>
-  <a href="#" onclick="openModal()">Recrutement</a>
-  <a href="#contact" onclick="scrollToSection('contact')">Contact</a>
-  <a href="#forums" onclick="scrollToSection('forums')">Forums</a>
-</nav>
-
-<section id="apropos">
-  <h2>À propos</h2>
-  <p>Welcome to our website sweetie'</p>
-  <p>Here you'll find all the information you need, as well as a form to join us, our networks, our discord, our universe and our references.</p>
-  <p>We're back with even bigger ideas. With universe that transcends time...</p>
-</section>
-
-<section id="
+  <a href="#" onclick="openModal()">Recrutement
 
