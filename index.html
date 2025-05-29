@@ -1,284 +1,151 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Spice Girls - Club Star Stable</title>
-<style>
-  /* Reset */
-  * {
-    box-sizing: border-box;
-  }
-
-  body {
-    margin: 0;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #fff0f5;
-    color: #333;
-    transition: background 0.4s ease, color 0.4s ease;
-  }
-
-  /* Header */
-  header {
-    background-image: url('spicegirl.png');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    padding: 60px 20px 40px;
-    text-align: center;
-    color: white;
-    position: relative;
-    z-index: 1;
-  }
-  header::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: rgba(214,51,132,0.6);
-    mix-blend-mode: multiply;
-    z-index: -1;
-  }
-  header h1 {
-    margin: 0;
-    font-size: 3.5rem;
-    text-shadow: 0 2px 8px rgba(0,0,0,0.5);
-  }
-  header p {
-    font-size: 1.25rem;
-    margin-top: 10px;
-    font-weight: 600;
-    text-shadow: 0 1px 5px rgba(0,0,0,0.4);
-  }
-
-  /* Nav fixe avec blur */
-  nav {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    backdrop-filter: blur(8px);
-    background: rgba(255, 192, 203, 0.75);
-    box-shadow: 0 2px 12px rgba(214,51,132,0.3);
-    padding: 12px 0;
-    text-align: center;
-    z-index: 1000;
-  }
-  nav a {
-    display: inline-block;
-    margin: 0 20px;
-    color: white;
-    font-weight: 700;
-    font-size: 1.1rem;
-    position: relative;
-    text-decoration: none;
-    padding: 6px 0;
-    transition: color 0.3s ease;
-  }
-  /* Soulignement animé */
-  nav a::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    height: 3px;
-    width: 0;
-    background: #d63384;
-    transition: width 0.3s ease;
-    border-radius: 2px;
-  }
-  nav a:hover,
-  nav a:focus {
-    color: #d63384;
-  }
-  nav a:hover::after,
-  nav a:focus::after {
-    width: 100%;
-  }
-
-  /* Pour éviter que le contenu soit sous le menu fixe */
-  body > *:not(nav):not(header) {
-    padding-top: 70px;
-  }
-
-  /* Section styles - cards modernes */
-  section {
-    max-width: 900px;
-    background: white;
-    margin: 40px auto;
-    border-radius: 12px;
-    box-shadow: 0 6px 20px rgba(214, 51, 132, 0.15);
-    padding: 30px 35px;
-    animation: fadeSlideIn 0.7s ease forwards;
-  }
-
-  h2 {
-    color: #d63384;
-    font-weight: 800;
-    margin-top: 0;
-    margin-bottom: 15px;
-    font-size: 2rem;
-    border-left: 6px solid #d63384;
-    padding-left: 12px;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-  }
-
-  p, ul {
-    font-size: 1.1rem;
-    line-height: 1.6;
-  }
-
-  ul {
-    padding-left: 20px;
-  }
-
-  /* Footer */
-  footer {
-    text-align: center;
-    padding: 25px 10px;
-    background-color: #ffe4e1;
-    color: #888;
-    font-size: 0.9rem;
-    user-select: none;
-    border-top: 1px solid #d63384;
-  }
-
-  /* Contact links */
-  .contact a {
-    color: #d63384;
-    text-decoration: none;
-    font-weight: 600;
-    transition: color 0.3s ease;
-  }
-  .contact a:hover,
-  .contact a:focus {
-    color: #a61d66;
-  }
-
-  /* Modal */
-  #modal {
-    display: none;
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,0.6);
-    justify-content: center;
-    align-items: center;
-  }
-  #modal-content {
-    background: white;
-    padding: 30px;
-    border-radius: 12px;
-    max-width: 400px;
-    text-align: center;
-    box-shadow: 0 12px 35px rgba(214, 51, 132, 0.3);
-  }
-  #close-modal {
-    background: #d63384;
-    color: white;
-    border: none;
-    padding: 12px 25px;
-    cursor: pointer;
-    margin-top: 20px;
-    border-radius: 6px;
-    font-weight: 700;
-    font-size: 1rem;
-    transition: background-color 0.3s ease;
-  }
-  #close-modal:hover,
-  #close-modal:focus {
-    background-color: #a61d66;
-  }
-
-  /* Dark mode */
-  .dark-mode {
-    background-color: #1c1c1c;
-    color: #eee;
-  }
-  .dark-mode header::after {
-    background: rgba(214,51,132,0.9);
-  }
-  .dark-mode nav {
-    background: rgba(68,68,68,0.85);
-    box-shadow: 0 2px 12px rgba(214,51,132,0.6);
-  }
-  .dark-mode nav a {
-    color: #eee;
-  }
-  .dark-mode nav a:hover,
-  .dark-mode nav a:focus {
-    color: #d63384;
-  }
-  .dark-mode nav a::after {
-    background: #d63384;
-  }
-  .dark-mode section {
-    background: #2a2a2a;
-    box-shadow: 0 6px 20px rgba(214, 51, 132, 0.4);
-  }
-  .dark-mode footer {
-    background: #222;
-    color: #bbb;
-    border-top: 1px solid #d63384;
-  }
-  .dark-mode .contact a {
-    color: #d63384;
-  }
-  .dark-mode .contact a:hover,
-  .dark-mode .contact a:focus {
-    color: #a61d66;
-  }
-  .dark-mode #modal-content {
-    background: #333;
-    color: #eee;
-    box-shadow: 0 12px 35px rgba(214, 51, 132, 0.7);
-  }
-
-  /* Button theme */
-  #theme-btn {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background: #d63384;
-    color: white;
-    border: none;
-    border-radius: 50%;
-    width: 50px;
-    height: 50px;
-    font-size: 1.5rem;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.3s ease;
-    box-shadow: 0 4px 10px rgba(214, 51, 132, 0.4);
-  }
-  #theme-btn:hover,
-  #theme-btn:focus {
-    background-color: #a61d66;
-    transform: scale(1.15);
-  }
-
-  /* Animations */
-  @keyframes fadeSlideIn {
-    from {
-      opacity: 0;
-      transform: translateY(40px);
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Spice Girls - Club Star Stable</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #fff0f5;
+      color: #333;
+      transition: background 0.3s, color 0.3s;
     }
-    to {
-      opacity: 1;
-      transform: translateY(0);
+
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      background: #d63384;
+      color: white;
+      display: flex;
+      justify-content: center;
+      gap: 25px;
+      padding: 15px 0;
+      z-index: 1000;
+      font-weight: bold;
+      font-size: 1.1rem;
     }
-  }
-</style>
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      cursor: pointer;
+      transition: color 0.3s;
+    }
+
+    nav a:hover {
+      color: #ffb6c1;
+      text-decoration: underline;
+    }
+
+    main {
+      padding-top: 75px; /* laisse la place au menu fixe */
+      max-width: 900px;
+      margin: 0 auto 50px;
+      padding-left: 20px;
+      padding-right: 20px;
+    }
+
+    section {
+      margin-bottom: 50px;
+      background: #fef0f5;
+      padding: 25px 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(214, 51, 132, 0.15);
+    }
+
+    h1 {
+      text-align: center;
+      color: #d63384;
+      margin-top: 40px;
+      margin-bottom: 10px;
+      font-size: 3.2rem;
+    }
+
+    h2 {
+      color: #d63384;
+      margin-bottom: 15px;
+      font-size: 2rem;
+    }
+
+    p, ul {
+      font-size: 1.1rem;
+      line-height: 1.5;
+      color: #333;
+    }
+
+    ul {
+      padding-left: 20px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      background-color: #ffe4e1;
+      color: #888;
+      font-size: 0.9rem;
+    }
+
+    /* Modal et dark mode ici si besoin */
+  </style>
 </head>
 <body>
 
-<header>
-  <h1>Spice Girls</h1>
-  <p>Club Star Stable Online</p>
-</header>
-
 <nav>
-  <a href="#apropos" onclick="scrollToSection('apropos')">À propos</a>
-  <a href="#activites" onclick="scrollToSection('activites')">Activités</a>
-  <a href="#" onclick="openModal()">Recrutement
+  <a href="#apropos">À propos</a>
+  <a href="#activites">Nos activités</a>
+  <a href="#recrutement">Recrutement</a>
+  <a href="#contact">Contact</a>
+  <a href="#forums">Forums</a>
+</nav>
+
+<main>
+
+  <h1>Spice Girls</h1>
+  <p style="text-align:center; color:#d63384; margin-bottom: 50px;">Club Star Stable Online</p>
+
+  <section id="apropos">
+    <h2>À propos</h2>
+    <p>Welcome to our website sweetie'</p>
+    <p>Here you'll find all the information you need, as well as a form to join us, our networks, our discord, our universe and our references.</p>
+    <p>We're back with even bigger ideas. With universe that transcends time...</p>
+  </section>
+
+  <section id="activites">
+    <h2>Nos activités</h2>
+    <p>˚₊· ͟͟͞➳❥  Nous sommes un club de Dressage melangeant la bonne ambiance, les soirées chill avec une touche de sérieux. Nous avons des objectifs comme rentrer dans la SSD, nous faire connaître nous et notre DA.</p>
+    <p>Ici retrouvez du dressage, du roblox, du valorant, des soirées films et des jeux multiples que se soit sur SSO ou autres..</p>
+  </section>
+
+  <section id="recrutement">
+    <h2>Recrutement</h2>
+    <p>Tu veux rejoindre les Spice Girls ?<br>
+    Contacte-nous sur Discord ou Insta 💌</p>
+  </section>
+
+  <section id="contact">
+    <h2>Contact</h2>
+    <p>Rejoins-nous sur Discord : <a href="#" style="color:#d63384;">lien à venir</a></p>
+    <p>Suis-nous sur Instagram : 
+      <a href="https://www.instagram.com/spicegirls_ssoclub/" target="_blank" style="color:#d63384;">
+        @spicegirls_ssoclub
+      </a>
+    </p>
+  </section>
+
+  <section id="forums">
+    <h2>Forums</h2>
+    <p>Tu veux donner ton avis ou poser une question ? Clique ici pour accéder à notre forum :</p>
+    <p><a href="https://forms.gle/kQryB94R5kXDnQMdA" target="_blank" style="color:#d63384;">Accéder au formulaire</a></p>
+  </section>
+
+</main>
+
+<footer>
+  &copy; 2025 Spice Girls - Club Star Stable
+</footer>
+
+</body>
+</html>
 
