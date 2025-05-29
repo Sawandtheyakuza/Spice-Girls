@@ -7,145 +7,326 @@
   <style>
     body {
       margin: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #fff0f5;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #ffe9f0; /* rose doux */
       color: #333;
       transition: background 0.3s, color 0.3s;
     }
 
-    nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      background: #d63384;
+    header {
+      background-image: url('spicegirl.png');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      padding: 60px 20px;
+      text-align: center;
       color: white;
-      display: flex;
-      justify-content: center;
-      gap: 25px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    header::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(255, 182, 193, 0.5); /* voile rose clair sur image */
+      pointer-events: none;
+    }
+
+    header h1, header p {
+      position: relative;
+      z-index: 1;
+      margin: 0;
+      animation: fadeInUp 1s ease forwards;
+      opacity: 0;
+    }
+
+    header h1 {
+      font-size: 3em;
+      animation-delay: 0.3s;
+    }
+
+    header p {
+      font-size: 1.3em;
+      animation-delay: 0.7s;
+    }
+
+    nav {
+      background-color: #f4c1cc; /* rose pastel */
+      text-align: center;
       padding: 15px 0;
-      z-index: 1000;
-      font-weight: bold;
-      font-size: 1.1rem;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      position: sticky;
+      top: 0;
+      z-index: 10;
     }
 
     nav a {
-      color: white;
+      margin: 0 20px;
+      color: #800040;
       text-decoration: none;
+      font-weight: 600;
+      font-size: 1.1em;
       cursor: pointer;
-      transition: color 0.3s;
+      transition: color 0.3s ease;
     }
 
-    nav a:hover {
-      color: #ffb6c1;
-      text-decoration: underline;
-    }
-
-    main {
-      padding-top: 75px; /* laisse la place au menu fixe */
-      max-width: 900px;
-      margin: 0 auto 50px;
-      padding-left: 20px;
-      padding-right: 20px;
+    nav a:hover, nav a.active {
+      color: #b03060;
+      border-bottom: 2px solid #b03060;
+      padding-bottom: 2px;
     }
 
     section {
-      margin-bottom: 50px;
-      background: #fef0f5;
-      padding: 25px 20px;
-      border-radius: 10px;
-      box-shadow: 0 0 15px rgba(214, 51, 132, 0.15);
+      padding: 50px 20px;
+      max-width: 900px;
+      margin: auto;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
     }
 
-    h1 {
-      text-align: center;
-      color: #d63384;
-      margin-top: 40px;
-      margin-bottom: 10px;
-      font-size: 3.2rem;
+    section.visible {
+      opacity: 1;
+      transform: translateY(0);
     }
 
     h2 {
-      color: #d63384;
-      margin-bottom: 15px;
-      font-size: 2rem;
-    }
-
-    p, ul {
-      font-size: 1.1rem;
-      line-height: 1.5;
-      color: #333;
-    }
-
-    ul {
-      padding-left: 20px;
+      color: #b03060;
+      font-size: 2em;
+      margin-bottom: 20px;
     }
 
     footer {
       text-align: center;
       padding: 20px;
-      background-color: #ffe4e1;
-      color: #888;
-      font-size: 0.9rem;
+      background-color: #f7d4dc;
+      color: #800040;
+      font-weight: 600;
+      margin-top: 40px;
     }
 
-    /* Modal et dark mode ici si besoin */
+    .contact a {
+      color: #b03060;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .contact a:hover {
+      color: #800040;
+    }
+
+    /* Modal */
+    #modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.6);
+      justify-content: center;
+      align-items: center;
+      z-index: 20;
+    }
+
+    #modal-content {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      max-width: 400px;
+      text-align: center;
+      box-shadow: 0 0 15px rgba(176, 48, 96, 0.4);
+    }
+
+    #close-modal {
+      background: #b03060;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      cursor: pointer;
+      margin-top: 20px;
+      border-radius: 5px;
+      font-weight: 600;
+      transition: background 0.3s ease;
+    }
+
+    #close-modal:hover {
+      background: #800040;
+    }
+
+    /* Dark mode */
+    .dark-mode {
+      background-color: #1c1c1c;
+      color: #f0f0f0;
+    }
+
+    .dark-mode header::after {
+      background: rgba(128, 0, 64, 0.5);
+    }
+
+    .dark-mode nav {
+      background: #444;
+      box-shadow: 0 2px 5px rgba(255, 182, 193, 0.5);
+    }
+
+    .dark-mode nav a {
+      color: #f4c1cc;
+    }
+
+    .dark-mode nav a:hover, .dark-mode nav a.active {
+      color: #ffb6c1;
+      border-bottom-color: #ffb6c1;
+    }
+
+    .dark-mode footer {
+      background: #222;
+      color: #f4c1cc;
+    }
+
+    #theme-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #b03060;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      font-size: 1.5em;
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(176, 48, 96, 0.8);
+      transition: background 0.3s ease;
+      z-index: 30;
+    }
+
+    #theme-btn:hover {
+      background: #800040;
+    }
+
+    /* Animations */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
   </style>
 </head>
 <body>
 
+<header>
+  <h1>Spice Girls</h1>
+  <p>Club Star Stable Online</p>
+</header>
+
 <nav>
-  <a href="#apropos">À propos</a>
-  <a href="#activites">Nos activités</a>
-  <a href="#recrutement">Recrutement</a>
-  <a href="#contact">Contact</a>
-  <a href="#forums">Forums</a>
+  <a href="#" onclick="scrollToSection('apropos'); setActive(this)">À propos</a>
+  <a href="#" onclick="scrollToSection('activites'); setActive(this)">Nos activités</a>
+  <a href="#" onclick="openModal()">Recrutement</a>
+  <a href="#" onclick="scrollToSection('contact'); setActive(this)">Contact</a>
+  <a href="#" onclick="scrollToSection('forums'); setActive(this)">Forums</a>
 </nav>
 
-<main>
+<section id="apropos">
+  <h2>À propos</h2>
+  <p>Welcome to our website sweetie'</p>
+  <p>Here you'll find all the information you need, as well as a form to join us, our networks, our discord, our universe and our references.</p>
+  <p>We're back with even bigger ideas. With universe that transcends time...</p>
+</section>
 
-  <h1>Spice Girls</h1>
-  <p style="text-align:center; color:#d63384; margin-bottom: 50px;">Club Star Stable Online</p>
+<section id="activites">
+  <h2>Nos activités</h2>
+  <p>˚₊· ͟͟͞➳❥  Nous sommes un club de Dressage mélangeant la bonne ambiance, les soirées chill avec une touche de sérieux. Nous avons des objectifs comme rentrer dans la SSD, nous faire connaître nous et notre DA.</p>
+  <p>Ici retrouvez du dressage, du roblox, du valorant, des soirées films et des jeux multiples que se soit sur SSO ou autres..</p>
+</section>
 
-  <section id="apropos">
-    <h2>À propos</h2>
-    <p>Welcome to our website sweetie'</p>
-    <p>Here you'll find all the information you need, as well as a form to join us, our networks, our discord, our universe and our references.</p>
-    <p>We're back with even bigger ideas. With universe that transcends time...</p>
-  </section>
+<section id="contact" class="contact">
+  <h2>Contact</h2>
+  <p>Rejoins-nous sur Discord : <a href="#">lien à venir</a></p>
+  <p>Suis-nous sur Instagram : 
+    <a href="https://www.instagram.com/spicegirls_ssoclub/" target="_blank" rel="noopener noreferrer">@spicegirls_ssoclub</a>
+  </p>
+</section>
 
-  <section id="activites">
-    <h2>Nos activités</h2>
-    <p>˚₊· ͟͟͞➳❥  Nous sommes un club de Dressage melangeant la bonne ambiance, les soirées chill avec une touche de sérieux. Nous avons des objectifs comme rentrer dans la SSD, nous faire connaître nous et notre DA.</p>
-    <p>Ici retrouvez du dressage, du roblox, du valorant, des soirées films et des jeux multiples que se soit sur SSO ou autres..</p>
-  </section>
-
-  <section id="recrutement">
-    <h2>Recrutement</h2>
-    <p>Tu veux rejoindre les Spice Girls ?<br>
-    Contacte-nous sur Discord ou Insta 💌</p>
-  </section>
-
-  <section id="contact">
-    <h2>Contact</h2>
-    <p>Rejoins-nous sur Discord : <a href="#" style="color:#d63384;">lien à venir</a></p>
-    <p>Suis-nous sur Instagram : 
-      <a href="https://www.instagram.com/spicegirls_ssoclub/" target="_blank" style="color:#d63384;">
-        @spicegirls_ssoclub
-      </a>
-    </p>
-  </section>
-
-  <section id="forums">
-    <h2>Forums</h2>
-    <p>Tu veux donner ton avis ou poser une question ? Clique ici pour accéder à notre forum :</p>
-    <p><a href="https://forms.gle/kQryB94R5kXDnQMdA" target="_blank" style="color:#d63384;">Accéder au formulaire</a></p>
-  </section>
-
-</main>
+<section id="forums">
+  <h2>Forums</h2>
+  <p>Tu veux donner ton avis ou poser une question ? Clique ici pour accéder à notre forum :</p>
+  <p><a href="https://forms.gle/kQryB94R5kXDnQMdA" target="_blank" rel="noopener noreferrer">Accéder au formulaire</a></p>
+</section>
 
 <footer>
   &copy; 2025 Spice Girls - Club Star Stable
 </footer>
 
+<!-- Modal recrue -->
+<div id="modal">
+  <div id="modal-content">
+    <h3>Recrutement</h3>
+    <p>Tu veux rejoindre les Spice Girls ?<br>
+    Contacte-nous sur Discord ou Insta 💌</p>
+    <button id="close-modal">Fermer</button>
+  </div>
+</div>
+
+<!-- Bouton thème -->
+<button id="theme-btn" aria-label="Changer thème">🌓</button>
+
+<script>
+  // Scroll smooth to section
+  function scrollToSection(id) {
+    const section = document.getElementById(id);
+    if(section) {
+      section.scrollIntoView({ behavior: "smooth" });
+    }
+  }
+
+  // Set active menu link style
+  function setActive(el) {
+    document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
+    el.classList.add('active');
+  }
+
+  // Open modal
+  function openModal() {
+    document.getElementById("modal").style.display = "flex";
+  }
+
+  // Close modal
+  document.getElementById("close-modal").onclick = () => {
+    document.getElementById("modal").style.display = "none";
+  };
+
+  // Dark mode toggle
+  document.getElementById("theme-btn").onclick = () => {
+    document.body.classList.toggle("dark-mode");
+  };
+
+  // Animation on scroll - reveal sections
+  function revealSections() {
+    const sections = document.querySelectorAll("section");
+    const triggerBottom = window.innerHeight * 0.85;
+
+    sections.forEach(section => {
+      const sectionTop = section.getBoundingClientRect().top;
+      if(sectionTop < triggerBottom) {
+        section.classList.add("visible");
+      }
+    });
+  }
+
+  window.addEventListener('scroll', revealSections);
+  window.addEventListener('load', revealSections);
+
+  // Initialize active link to À propos
+  document.querySelector('nav a').classList.add('active');
+</script>
+
 </body>
 </html>
+
 
